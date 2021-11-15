@@ -1,1 +1,3 @@
-# game-prototype
+**CyberGothica battle prototype**
+
+Special premint edition
