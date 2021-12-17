@@ -7,7 +7,7 @@ import {
 	getSolletWallet,
 	getSolletExtensionWallet,
 } from "@solana/wallet-adapter-wallets";
-import { getNftMetadata } from "./lib/nft-utils";
+import { getNftMetadata, getUserTokenAccounts } from "./lib/nft-utils";
 
 const unityContext = new UnityContext({
   loaderUrl: "Build/cg-build.loader.js",
@@ -27,8 +27,6 @@ export const App = () => {
   useEffect(function () {
     unityContext.on("ConnectWallet", async function () {
       setdisplayWallets(true);
-
-      console.log(getNftMetadata("43oFFmtR4CWyEaReX3jVKAwm51AiyThshnGBQcsttXKa"));
     });
     
     unityContext.on("progress", function (progression) {
@@ -63,6 +61,8 @@ export const App = () => {
     if(userWallet.publicKey !== null) {
         unityContext.send("UserWallet", "ReceiveWalletInfo", userWallet.publicKey.toString());
         setdisplayWallets(false);
+
+        await getUserTokenAccounts(userWallet.publicKey);
     }
   }
 
