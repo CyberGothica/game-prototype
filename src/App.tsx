@@ -62,7 +62,12 @@ export const App = () => {
         unityContext.send("UserWallet", "ReceiveWalletInfo", userWallet.publicKey.toString());
         setdisplayWallets(false);
 
-        await getNftsForOwner(userWallet.publicKey);
+        const nftsData = await getNftsForOwner(userWallet.publicKey);
+
+        for(let i = 0; i < nftsData.length; i++) {
+          const nftJsonData = JSON.stringify(nftsData[i]);
+          unityContext.send("UserWallet", "ReceiveNft", nftJsonData);
+        }
     }
   }
 

@@ -31,7 +31,6 @@ export const sleep = (ms: number): Promise<void> => {
 };
 
 export async function getNftsForOwner(ownerAddress: anchor.web3.PublicKey) {
-    
 	const allTokens: any = []
 	const tokenAccounts = await CONNECTION.getParsedTokenAccountsByOwner(ownerAddress, {
 	  programId: TOKEN_PROGRAM_ID
@@ -43,7 +42,6 @@ export async function getNftsForOwner(ownerAddress: anchor.web3.PublicKey) {
       
 	  if (tokenAmount.amount == "1" && tokenAmount.decimals == "0" && tokenAccount.account.data.parsed.info.owner == CYBERGOTHICA_WALLET) {
 		try {
-            console.log(tokenAccount.account.data.parsed.info.owner == CYBERGOTHICA_WALLET);
             let [pda] = await anchor.web3.PublicKey.findProgramAddress([
                 Buffer.from("metadata"),
                 TOKEN_METADATA_PROGRAM_ID.toBuffer(),
@@ -52,16 +50,15 @@ export async function getNftsForOwner(ownerAddress: anchor.web3.PublicKey) {
               const accountInfo: any = await CONNECTION.getParsedAccountInfo(pda);
         
               const metadata: any = new Metadata(ownerAddress.toString(), accountInfo.value);
-              console.log(tokenAccount.pubkey.toString());
-      
               const { data }: any = await axios.get(metadata.data.data.uri)
-              console.log(data);
       
-              if(data.collection.family = "CyberGothica") continue;
+              if(data.collection.family != "CyberGothica") continue;
       
-              const entireData = { ...data, id: Number(data.name.replace( /^\D+/g, '').split(' - ')[0]) }
+              //const entireData = { ...data, id: Number(data.name.replace( /^\D+/g, '').split(' - ')[0]) }
         
-              allTokens.push({ ...entireData })
+              //allTokens.push({ ...entireData })
+
+			  allTokens.push({ Address: tokenAccount.account.data.parsed.info.mint, Name: data.name, ImageUrl: data.image })
         }
         catch (error: any) {
             console.log(error.toString());
