@@ -58,7 +58,7 @@ export async function getNftsForOwner(ownerAddress: anchor.web3.PublicKey) {
         
               //allTokens.push({ ...entireData })
 
-			  allTokens.push({ Address: tokenAccount.account.data.parsed.info.mint, Name: data.name, ImageUrl: data.image })
+			  allTokens.push({ Address: tokenAccount.account.data.parsed.info.mint, Name: data.name, ImageUrl: data.image, Image: null })
         }
         catch (error: any) {
             console.log(error.toString());
