@@ -8,6 +8,7 @@ import {
 	getSolletExtensionWallet,
 } from "@solana/wallet-adapter-wallets";
 import { getNftsForOwner } from "./lib/nft-utils";
+import { getSpiritBalance } from "./lib/utils";
 
 const unityContext = new UnityContext({
   loaderUrl: "Build/cg-build.loader.js",
@@ -60,6 +61,9 @@ export const App = () => {
 
     if(userWallet.publicKey !== null) {
         unityContext.send("UserWallet", "ReceiveWalletInfo", userWallet.publicKey.toString());
+        const spiritTokenAmount = 1; // await getSpiritBalance(userWallet.publicKey); 
+        console.log(spiritTokenAmount);
+        unityContext.send("UserWallet", "SetSpiritAmount", spiritTokenAmount);
         setdisplayWallets(false);
 
         const nftsData = await getNftsForOwner(userWallet.publicKey);
@@ -83,6 +87,12 @@ export const App = () => {
               </button>
               <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSlopeWallet())}>
                   Slope
+              </button>
+              <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSolflareWallet())}>
+                  Solflare
+              </button>
+              <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSolletWallet())}>
+                  Sollet
               </button>
           </div>
           </div>
