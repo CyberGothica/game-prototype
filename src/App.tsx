@@ -61,8 +61,8 @@ export const App = () => {
 
     if(userWallet.publicKey !== null) {
         unityContext.send("UserWallet", "ReceiveWalletInfo", userWallet.publicKey.toString());
-        const spiritTokenAmount = 1; // await getSpiritBalance(userWallet.publicKey); 
-        console.log(spiritTokenAmount);
+        const spiritTokenAmount = await getSpiritBalance(userWallet.publicKey); 
+        
         unityContext.send("UserWallet", "SetSpiritAmount", spiritTokenAmount);
         setdisplayWallets(false);
 
