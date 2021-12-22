@@ -43,6 +43,29 @@ export const App = () => {
         }
       } 
     });
+
+    unityContext.on("RegisterNewNft", function (nftAddress, nftName) {
+        console.log(nftAddress);
+        console.log(nftName);
+        var url = process.env.REACT_APP_LEADERBOARD_URL;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url + "/register");
+
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+        }};
+
+        var data = `{"token_address": "${nftAddress}", "character_name": "${nftName}"}`;
+
+        xhr.send(data);
+    });
+
     return function () {
       unityContext.removeEventListener("progress");
     };
