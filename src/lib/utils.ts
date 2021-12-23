@@ -8,7 +8,7 @@ export const getSpiritBalance = async (wallet: PublicKey) => {
         {mint: SPIRIT_TOKEN_ADDRESS}    
     );
 
-    if(!response) return 0;
-    
+    if(!response || response == undefined) return 0;
+
     return response.value[0].account.data.parsed.info.tokenAmount.uiAmount;
 }
