@@ -39,8 +39,10 @@ export async function getNftsForOwner(ownerAddress: anchor.web3.PublicKey) {
 	for (let index = 0; index < tokenAccounts.value.length; index++) {
 	  const tokenAccount = tokenAccounts.value[index];
 	  const tokenAmount = tokenAccount.account.data.parsed.info.tokenAmount;
+
+    console.log(tokenAccount.account.data.parsed.info);
       
-	  if (tokenAmount.amount == "1" && tokenAmount.decimals == "0" && tokenAccount.account.data.parsed.info.owner == CYBERGOTHICA_WALLET) {
+	  if (tokenAmount.amount == "1" && tokenAmount.decimals == "0") {
 		try {
             let [pda] = await anchor.web3.PublicKey.findProgramAddress([
                 Buffer.from("metadata"),
@@ -53,10 +55,6 @@ export async function getNftsForOwner(ownerAddress: anchor.web3.PublicKey) {
               const { data }: any = await axios.get(metadata.data.data.uri)
       
               if(data.collection.family != "CyberGothica") continue;
-      
-              //const entireData = { ...data, id: Number(data.name.replace( /^\D+/g, '').split(' - ')[0]) }
-        
-              //allTokens.push({ ...entireData })
 
 			  allTokens.push({ Address: tokenAccount.account.data.parsed.info.mint, Name: data.name, ImageUrl: data.image, Image: null })
         }
