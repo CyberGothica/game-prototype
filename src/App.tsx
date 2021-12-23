@@ -47,7 +47,7 @@ export const App = () => {
     unityContext.on("RegisterNewNft", function (nftAddress, nftName) {
         console.log(nftAddress);
         console.log(nftName);
-        var url = "https://cyber-gothica-leaderboard.herokuapp.com";
+        var url = process.env.REACT_APP_LEADERBOARD_DB_URI;
 
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url + "/register");
