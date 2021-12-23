@@ -73,18 +73,3 @@ export async function getNftsForOwner(ownerAddress: anchor.web3.PublicKey) {
   
 	return allTokens
   }
-
-export async function getNftMetadata(nftAddress: string) {
-	let tokenmetaPubkey = await Metadata.getPDA(new anchor.web3.PublicKey(nftAddress));
-	const tokenAccountMeta = await Metadata.load(CONNECTION, tokenmetaPubkey);
-
-	if(CYBERGOTHICA_WALLET.toString() == tokenAccountMeta.data.updateAuthority) {
-		const nftInfo = JSON.parse(GetInfoFromUrl(tokenAccountMeta.data.data.uri));
-
-		if(nftInfo.collection.family = "CyberGothica")
-			return nftInfo;
-	}
-	
-	console.log("It is not CyberGothica's nft!");
-	return null;
-}

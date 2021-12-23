@@ -47,7 +47,7 @@ export const App = () => {
     unityContext.on("RegisterNewNft", function (nftAddress, nftName) {
         console.log(nftAddress);
         console.log(nftName);
-        var url = process.env.REACT_APP_LEADERBOARD_URL;
+        var url = "https://cyber-gothica-leaderboard.herokuapp.com";
 
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url + "/register");
@@ -121,7 +121,7 @@ export const App = () => {
           </div>
         </div>
       : null }
-      <Unity devicePixelRatio={1} unityContext={unityContext} className="unity-canvas" /> 
+      <Unity devicePixelRatio={1} unityContext={unityContext} className="unity-canvas" />
       <div id="unity-loading-bar">
         <img id="game-logo" src="logo.png" />
         <div id="unity-progress-bar-empty">
