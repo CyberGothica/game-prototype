@@ -8,8 +8,6 @@ export const getSpiritBalance = async (wallet: PublicKey) => {
         {mint: SPIRIT_TOKEN_ADDRESS}    
     );
 
-    console.log(response);
-
     if(!response || response === undefined) return 0;
     if(!response.value || response.value === undefined || response.value.length === 0) return 0;
     if(!response.value[0] || response.value[0] === undefined) return 0;
