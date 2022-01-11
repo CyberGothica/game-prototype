@@ -12,20 +12,6 @@ const TOKEN_METADATA_PROGRAM_ID = new anchor.web3.PublicKey(
 	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
 );
 
-export const getUserTokenAccounts = async (pubkey: anchor.web3.PublicKey) => {
-    
-    console.log(
-        await CONNECTION.getTokenAccountsByOwner(pubkey, { programId: TOKEN_PROGRAM_ID })
-    );
-}
-
-export const GetInfoFromUrl = (yourUrl: string) => {
-    var Httpreq = new XMLHttpRequest();
-    Httpreq.open("GET", yourUrl, false);
-    Httpreq.send(null);
-    return Httpreq.responseText;          
-}
-
 export const sleep = (ms: number): Promise<void> => {
 	return new Promise(resolve => setTimeout(resolve, ms));
 };
