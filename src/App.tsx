@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { DOMElement, useEffect, useState } from "react";
+import $ from 'jquery';
 import Unity, { UnityContext } from "react-unity-webgl";
 import {
 	getPhantomWallet,
@@ -97,6 +98,27 @@ export const App = () => {
         }
     }
   }
+
+
+
+
+  // $('button').addClass("mintButton");
+
+  // let observerTargetDom = document.body;
+  // let observerConfig = { attributes: true, childList: true, subtree: true };
+  // const mutationHandler = (mutationList: any, observer: any) => {
+  //   $('button').addClass("walletButton");
+  //   console.log("hi");
+  // };
+  // let mutationObserver = new MutationObserver(mutationHandler);
+  // try {
+  //   mutationObserver.observe(observerTargetDom, observerConfig);
+  // } catch (e) {
+  //   console.log(e);
+  // }
+
+
+
 
   return (
     <>
