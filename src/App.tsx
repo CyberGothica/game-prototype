@@ -1,15 +1,14 @@
 import React, { DOMElement, useEffect, useState } from "react";
-import $ from 'jquery';
 import Unity, { UnityContext } from "react-unity-webgl";
 import {
 	getPhantomWallet,
 	getSlopeWallet,
 	getSolflareWallet,
-	getSolletWallet,
-	getSolletExtensionWallet,
+	getSolletWallet
 } from "@solana/wallet-adapter-wallets";
-import { getNftsForOwner } from "./lib/nft-utils";
-import { getSpiritBalance } from "./lib/utils";
+import { getNftsForOwner } from "./lib/solana/nft-utils";
+import { getTokenBalance } from "./lib/solana/utils";
+import { SPIRIT_TOKEN_ADDRESS } from "./lib/solana/config";
 
 const unityContext = new UnityContext({
   loaderUrl: "Build/cg-build.loader.js",
@@ -85,7 +84,7 @@ export const App = () => {
 
     if(userWallet.publicKey !== null) {
         unityContext.send("UserWallet", "ReceiveWalletInfo", userWallet.publicKey.toString());
-        const spiritTokenAmount = await getSpiritBalance(userWallet.publicKey); 
+        const spiritTokenAmount = await getTokenBalance(userWallet.publicKey, SPIRIT_TOKEN_ADDRESS); 
         
         unityContext.send("UserWallet", "SetSpiritAmount", spiritTokenAmount);
         setdisplayWallets(false);
@@ -98,9 +97,6 @@ export const App = () => {
         }
     }
   }
-
-
-
 
   // $('button').addClass("mintButton");
 
@@ -116,9 +112,6 @@ export const App = () => {
   // } catch (e) {
   //   console.log(e);
   // }
-
-
-
 
   return (
     <>

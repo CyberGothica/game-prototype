@@ -1,11 +1,9 @@
-import { CONNECTION } from "../config";
+import { CONNECTION } from "./config";
 import { PublicKey } from "@solana/web3.js";
 
-const SPIRIT_TOKEN_ADDRESS = new PublicKey("9bPoFPCwGCVGDMC5gvzisPdjgKC6tRLRDhirJvcktgVh");
-
-export const getSpiritBalance = async (wallet: PublicKey) => {
+export const getTokenBalance = async (wallet: PublicKey, address: PublicKey) => {
     const response: any = await CONNECTION.getParsedTokenAccountsByOwner(wallet, 
-        {mint: SPIRIT_TOKEN_ADDRESS}    
+        {mint: address}    
     );
 
     if(!response || response === undefined) return 0;
