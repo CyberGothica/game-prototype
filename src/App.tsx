@@ -6,7 +6,7 @@ import {
 	getSolflareWallet,
 	getSolletWallet
 } from "@solana/wallet-adapter-wallets";
-import { getNftsForOwner } from "./lib/solana/nft-utils";
+import { getNftsForOwner, transferNftsToGame } from "./lib/solana/nft-utils";
 import { getTokenBalance } from "./lib/solana/utils";
 import { SPIRIT_TOKEN_ADDRESS } from "./lib/solana/config";
 
@@ -89,29 +89,15 @@ export const App = () => {
         unityContext.send("UserWallet", "SetSpiritAmount", spiritTokenAmount);
         setdisplayWallets(false);
 
-        const nftsData = await getNftsForOwner(userWallet.publicKey);
+        transferNftsToGame(unityContext, userWallet.publicKey);
+        // const nftsData = await getNftsForOwner(userWallet.publicKey);
 
-        for(let i = 0; i < nftsData.length; i++) {
-          const nftJsonData = JSON.stringify(nftsData[i]);
-          unityContext.send("UserWallet", "ReceiveNft", nftJsonData);
-        }
+        // for(let i = 0; i < nftsData.length; i++) {
+        //   const nftJsonData = JSON.stringify(nftsData[i]);
+        //   unityContext.send("UserWallet", "ReceiveNft", nftJsonData);
+        // }
     }
   }
-
-  // $('button').addClass("mintButton");
-
-  // let observerTargetDom = document.body;
-  // let observerConfig = { attributes: true, childList: true, subtree: true };
-  // const mutationHandler = (mutationList: any, observer: any) => {
-  //   $('button').addClass("walletButton");
-  //   console.log("hi");
-  // };
-  // let mutationObserver = new MutationObserver(mutationHandler);
-  // try {
-  //   mutationObserver.observe(observerTargetDom, observerConfig);
-  // } catch (e) {
-  //   console.log(e);
-  // }
 
   return (
     <>
