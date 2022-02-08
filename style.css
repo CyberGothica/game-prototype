@@ -1,6 +1,27 @@
+@font-face {
+    font-family: 'matamata';
+    src: 
+        url('../fonts/matamata.regular.otf')
+        format('opentype');
+}
+
+@font-face {
+    font-family: 'matamata';
+    src: 
+        url('../fonts/matamata.bold.otf')
+        format('opentype');
+    font-weight: bold;
+}
+
+
 body { 
     padding: 0; 
-    margin: 0 
+    margin: 0;
+    font-family: 'matamata';
+}
+
+span, button, input {
+    font-family: 'matamata';
 }
 
 #game-logo { 
@@ -59,7 +80,7 @@ body {
 }
 
 #wallet-adapters-holder {
-    background: linear-gradient(180deg, #1d1d1d 0%, #141414 100%);
+    background: #1b1a1f;
     width: 100%;
     max-width: 250px;
     height: 100%;
@@ -86,10 +107,9 @@ body {
     float: right;
     padding-top: 10px;
     padding-bottom: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
     width: 100%;
-    background-color: rgb(160, 22, 22);
+    background-color: #1b1a1f;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-align: center;
@@ -98,24 +118,21 @@ body {
 }
 
 .wallet-adapters-list-button {
-    background: linear-gradient(180deg, #e73323 0%, #411fd8 100%);
-    border-color: black;
-    border-width: 2px;
-	color: white;
-	font-size: 16px;
-	font-weight: bold;
-    width: 120px;
-    height: 50px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border-radius: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+    font-size: large;
+    text-decoration: none;
+    color: black;
+    padding: 10px 40px;
+    border-radius: 1000px;
+    cursor: pointer;
+    transition: .3s;
+	background: darkgoldenrod;
+	width: 100%;
+	max-width: 375px;
     border: none;
-    margin: 10px;
-    transition: 0.3s;
 }
 
 .wallet-adapters-list-button:hover { 
-    background: linear-gradient(180deg, #e2df46 0%, #f6e064 100%);
-    transition: 0.3s;
-    width: 125px;
-    height: 55px;
+	background: white;
 }
