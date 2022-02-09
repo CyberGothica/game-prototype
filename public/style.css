@@ -1,14 +1,14 @@
 @font-face {
     font-family: 'matamata';
     src: 
-        url('../fonts/matamata.regular.otf')
+        url('./fonts/matamata.regular.otf')
         format('opentype');
 }
 
 @font-face {
     font-family: 'matamata';
     src: 
-        url('../fonts/matamata.bold.otf')
+        url('./fonts/matamata.bold.otf')
         format('opentype');
     font-weight: bold;
 }
