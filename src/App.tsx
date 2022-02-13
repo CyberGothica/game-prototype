@@ -6,7 +6,7 @@ import {
 	getSolflareWallet,
 	getSolletWallet
 } from "@solana/wallet-adapter-wallets";
-import { getNftsForOwner } from "./lib/solana/nft-utils";
+import { getNftsForOwner, transferNftsToGame } from "./lib/solana/nft-utils";
 import { getTokenBalance } from "./lib/solana/utils";
 import { SPIRIT_TOKEN_ADDRESS } from "./lib/solana/config";
 
@@ -135,16 +135,15 @@ export const App = () => {
         unityContext.send("UserWallet", "SetSpiritAmount", spiritTokenAmount);
         setdisplayWallets(false);
 
-        const nftsData = await getNftsForOwner(userWallet.publicKey);
+        transferNftsToGame(unityContext, userWallet.publicKey);
+        // const nftsData = await getNftsForOwner(userWallet.publicKey);
 
-        for(let i = 0; i < nftsData.length; i++) {
-          const nftJsonData = JSON.stringify(nftsData[i]);
-          unityContext.send("UserWallet", "ReceiveNft", nftJsonData);
-        }
+        // for(let i = 0; i < nftsData.length; i++) {
+        //   const nftJsonData = JSON.stringify(nftsData[i]);
+        //   unityContext.send("UserWallet", "ReceiveNft", nftJsonData);
+        // }
     }
   }
-
-  
 
   return (
     <>
