@@ -10,6 +10,12 @@ import { getNftsForOwner, transferNftsToGame } from "./lib/solana/nft-utils";
 import { getTokenBalance } from "./lib/solana/utils";
 import { SPIRIT_TOKEN_ADDRESS } from "./lib/solana/config";
 
+//New Harmony
+
+import Web3 from 'web3'
+
+declare var window: any
+
 const unityContext = new UnityContext({
   loaderUrl: "Build/cg-build.loader.js",
   dataUrl: "Build/cg-build.data",
@@ -21,10 +27,11 @@ const unityContext = new UnityContext({
 });
 
 export const App = () => {
-  
+  const [account, setAccount]=useState<any>('')
+
   const [displayWallets, setdisplayWallets] = useState(false);
   let userWallet: any;
-
+  
   useEffect(function () {
     unityContext.on("ConnectWallet", async function () {
       setdisplayWallets(true);
@@ -71,6 +78,45 @@ export const App = () => {
     };
 
   }, []);
+  
+   
+    
+  const onClickMetamask = async () =>{
+    //await provider();
+    
+    await loadWeb3();
+    await loadBlockchainData()
+  }
+    
+  
+  const loadWeb3 = async () => {
+  //you code here
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+      await window.ethereum.enable()
+    }
+    
+    else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider)
+    }
+    else {
+      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    }
+  }
+  
+  const loadBlockchainData = async () => {
+    //you code here
+      const web3 = window.web3
+      // Load account
+      const accounts = await web3.eth.getAccounts()
+  
+      setAccount(accounts[0])
+     
+      console.log(accounts[0])
+      setdisplayWallets(false);
+    }
+    
+ 
 
   const connectWalletToBuild = async (wallet: any) => {
     if(wallet == null || wallet == undefined) {
@@ -105,20 +151,23 @@ export const App = () => {
         <div id="wallet-connector">
           <div id="wallet-adapters-holder">
             <div id="wallet-adapters-title">SELECT WALLET</div>
-            <div id="wallet-adapters-list">
-              <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getPhantomWallet())}>
-                  Phantom
-              </button>
-              <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSlopeWallet())}>
-                  Slope
-              </button>
-              <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSolflareWallet())}>
-                  Solflare
-              </button>
-              <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSolletWallet())}>
-                  Sollet
-              </button>
-          </div>
+              <div id="wallet-adapters-list">
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getPhantomWallet())}>
+                    Phantom
+                </button>
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSlopeWallet())}>
+                    Slope
+                </button>
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSolflareWallet())}>
+                    Solflare
+                </button>
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSolletWallet())}>
+                    Sollet
+                </button>
+                <button className="wallet-adapters-list-button" onClick={() => onClickMetamask()}>
+                    Metamask
+                </button>
+            </div>
           </div>
         </div>
       : null }
@@ -133,4 +182,10 @@ export const App = () => {
   );
 }
 
+
+
+
+
 export default App;
+
+
