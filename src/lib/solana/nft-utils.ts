@@ -71,7 +71,8 @@ export async function getNftsForOwner(ownerAddress: anchor.web3.PublicKey) {
               const { data }: any = await axios.get(metadata.data.data.uri)
       
               if(data.collection.family != "CyberGothica") continue;
-			  const nftJsonData = JSON.stringify({ Address: tokenAccount.account.data.parsed.info.mint, Name: data.name, ImageUrl: data.image, Image: null });
+              
+			        const nftJsonData = JSON.stringify({ Address: tokenAccount.account.data.parsed.info.mint, Name: data.name, ImageUrl: data.image, Image: null });
           	  unityContext.send("UserWallet", "ReceiveNft", nftJsonData);
         }
         catch (error: any) {

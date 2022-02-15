@@ -6,13 +6,14 @@ import {
 	getSolflareWallet,
 	getSolletWallet
 } from "@solana/wallet-adapter-wallets";
-import { getNftsForOwner, transferNftsToGame } from "./lib/solana/nft-utils";
+import { transferNftsToGame } from "./lib/solana/nft-utils";
+import { transferHarmonyNftsToGame } from "./lib/harmony/nft-utils";
 import { getTokenBalance } from "./lib/solana/utils";
 import { SPIRIT_TOKEN_ADDRESS } from "./lib/solana/config";
+import MintableNFT from './lib/harmony/abi/MintableNFT.json';
+import Web3 from 'web3';
 
-//New Harmony
-
-import Web3 from 'web3'
+const TokenContract = MintableNFT as any;
 
 declare var window: any
 
@@ -77,17 +78,7 @@ export const App = () => {
       unityContext.removeEventListener("progress");
     };
 
-  }, []);
-  
-   
-    
-  const onClickMetamask = async () =>{
-    //await provider();
-    
-    await loadWeb3();
-    await loadBlockchainData()
-  }
-    
+  }, []); 
   
   const loadWeb3 = async () => {
   //you code here
@@ -105,20 +96,26 @@ export const App = () => {
   }
   
   const loadBlockchainData = async () => {
-    //you code here
-      const web3 = window.web3
-      // Load account
-      const accounts = await web3.eth.getAccounts()
-  
-      setAccount(accounts[0])
-     
-      console.log(accounts[0])
-      setdisplayWallets(false);
-    }
-    
- 
+    const web3 = window.web3
+    const networkId = await web3.eth.net.getId()
+    const networkData = TokenContract.networks[networkId];
 
-  const connectWalletToBuild = async (wallet: any) => {
+    if(networkData) {
+      const contract = new web3.eth.Contract(TokenContract.abi, networkData.address)  
+
+      const accounts = await web3.eth.getAccounts()
+      
+      unityContext.send("UserWallet", "ReceiveWalletInfo", accounts[0]);     
+      unityContext.send("UserWallet", "SetSpiritAmount", 0);
+
+      await transferHarmonyNftsToGame(unityContext, contract, accounts[0]);
+    } 
+    else {
+      window.alert('Smart contract not deployed to detected network.')
+    }
+  }
+    
+  const connectWalletToBuildSolana = async (wallet: any) => {
     if(wallet == null || wallet == undefined) {
       console.log("Wallet not found!");
       return;
@@ -145,6 +142,13 @@ export const App = () => {
     }
   }
 
+  const connectWalletToBuildHarmony = async () => {
+    await loadWeb3();
+    await loadBlockchainData();
+
+    setdisplayWallets(false);
+  }
+
   return (
     <>
       { displayWallets ? 
@@ -152,19 +156,19 @@ export const App = () => {
           <div id="wallet-adapters-holder">
             <div id="wallet-adapters-title">SELECT WALLET</div>
               <div id="wallet-adapters-list">
-                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getPhantomWallet())}>
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuildSolana(getPhantomWallet())}>
                     Phantom
                 </button>
-                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSlopeWallet())}>
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuildSolana(getSlopeWallet())}>
                     Slope
                 </button>
-                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSolflareWallet())}>
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuildSolana(getSolflareWallet())}>
                     Solflare
                 </button>
-                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuild(getSolletWallet())}>
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuildSolana(getSolletWallet())}>
                     Sollet
                 </button>
-                <button className="wallet-adapters-list-button" onClick={() => onClickMetamask()}>
+                <button className="wallet-adapters-list-button" onClick={() => connectWalletToBuildHarmony()}>
                     Metamask
                 </button>
             </div>
