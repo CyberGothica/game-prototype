@@ -1,4 +1,4 @@
-import React, { DOMElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import {
 	getPhantomWallet,
@@ -10,10 +10,8 @@ import { transferNftsToGame } from "./lib/solana/nft-utils";
 import { transferHarmonyNftsToGame } from "./lib/harmony/nft-utils";
 import { getTokenBalance } from "./lib/solana/utils";
 import { SPIRIT_TOKEN_ADDRESS } from "./lib/solana/config";
-import MintableNFT from './lib/harmony/abi/MintableNFT.json';
+import { NFT_CONTRACTS_ABIS } from "./lib/harmony/config";
 import Web3 from 'web3';
-
-const TokenContract = MintableNFT as any;
 
 declare var window: any
 
@@ -28,8 +26,6 @@ const unityContext = new UnityContext({
 });
 
 export const App = () => {
-  const [account, setAccount]=useState<any>('')
-
   const [displayWallets, setdisplayWallets] = useState(false);
   let userWallet: any;
   
@@ -81,7 +77,6 @@ export const App = () => {
   }, []); 
   
   const loadWeb3 = async () => {
-  //you code here
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum)
       await window.ethereum.enable()
@@ -91,28 +86,36 @@ export const App = () => {
       window.web3 = new Web3(window.web3.currentProvider)
     }
     else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+      window.alert('Non-EVM browser detected. You should consider trying MetaMask!')
     }
   }
   
   const loadBlockchainData = async () => {
     const web3 = window.web3
     const networkId = await web3.eth.net.getId()
-    const networkData = TokenContract.networks[networkId];
+    const accounts = await web3.eth.getAccounts()
 
-    if(networkData) {
-      const contract = new web3.eth.Contract(TokenContract.abi, networkData.address)  
+    unityContext.send("UserWallet", "ReceiveWalletInfo", accounts[0]);     
+    unityContext.send("UserWallet", "SetSpiritAmount", 0);
 
-      const accounts = await web3.eth.getAccounts()
-      
-      unityContext.send("UserWallet", "ReceiveWalletInfo", accounts[0]);     
-      unityContext.send("UserWallet", "SetSpiritAmount", 0);
+    for(let i = 0; i < NFT_CONTRACTS_ABIS.length; i++) {
+      const networkData = NFT_CONTRACTS_ABIS[i].networks[networkId]; 
 
-      await transferHarmonyNftsToGame(unityContext, contract, accounts[0]);
-    } 
-    else {
-      window.alert('Smart contract not deployed to detected network.')
+      if(networkData) {
+        const contract = new web3.eth.Contract(NFT_CONTRACTS_ABIS[i].abi, networkData.address)  
+        await transferHarmonyNftsToGame(unityContext, contract, accounts[0], networkData.address);
+      } 
+      else {
+        window.alert('Smart contract not deployed to detected network.')
+      }
     }
+  }
+
+  const connectWalletToBuildHarmony = async () => {
+    await loadWeb3();
+    await loadBlockchainData();
+
+    setdisplayWallets(false);
   }
     
   const connectWalletToBuildSolana = async (wallet: any) => {
@@ -133,20 +136,7 @@ export const App = () => {
         setdisplayWallets(false);
 
         transferNftsToGame(unityContext, userWallet.publicKey);
-        // const nftsData = await getNftsForOwner(userWallet.publicKey);
-
-        // for(let i = 0; i < nftsData.length; i++) {
-        //   const nftJsonData = JSON.stringify(nftsData[i]);
-        //   unityContext.send("UserWallet", "ReceiveNft", nftJsonData);
-        // }
     }
-  }
-
-  const connectWalletToBuildHarmony = async () => {
-    await loadWeb3();
-    await loadBlockchainData();
-
-    setdisplayWallets(false);
   }
 
   return (

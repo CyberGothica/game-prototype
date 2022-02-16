@@ -1,1 +1,4 @@
-export const HARMONY_WARRIOR_TESTNET_ADDRESS = "0x2BaB6c2E8499139031a1835F30cfC87d61DF88eB";
+import Mint1Contract from "./abis/mint-1/MintableNFT.json";
+import Mint2Contract from "./abis/mint-2/MintableNFT.json";
+
+export const NFT_CONTRACTS_ABIS = [Mint1Contract as any, Mint2Contract as any];
