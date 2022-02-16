@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/game-prototype/static/js/main.c9699d9f.chunk.js",
-    "main.js.map": "/game-prototype/static/js/main.c9699d9f.chunk.js.map",
+    "main.js": "/game-prototype/static/js/main.744897ab.chunk.js",
+    "main.js.map": "/game-prototype/static/js/main.744897ab.chunk.js.map",
     "runtime-main.js": "/game-prototype/static/js/runtime-main.10d83d11.js",
     "runtime-main.js.map": "/game-prototype/static/js/runtime-main.10d83d11.js.map",
-    "static/js/2.8a660467.chunk.js": "/game-prototype/static/js/2.8a660467.chunk.js",
-    "static/js/2.8a660467.chunk.js.map": "/game-prototype/static/js/2.8a660467.chunk.js.map",
+    "static/js/2.df9a252c.chunk.js": "/game-prototype/static/js/2.df9a252c.chunk.js",
+    "static/js/2.df9a252c.chunk.js.map": "/game-prototype/static/js/2.df9a252c.chunk.js.map",
     "index.html": "/game-prototype/index.html",
-    "static/js/2.8a660467.chunk.js.LICENSE.txt": "/game-prototype/static/js/2.8a660467.chunk.js.LICENSE.txt"
+    "static/js/2.df9a252c.chunk.js.LICENSE.txt": "/game-prototype/static/js/2.df9a252c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.10d83d11.js",
-    "static/js/2.8a660467.chunk.js",
-    "static/js/main.c9699d9f.chunk.js"
+    "static/js/2.df9a252c.chunk.js",
+    "static/js/main.744897ab.chunk.js"
   ]
 }
